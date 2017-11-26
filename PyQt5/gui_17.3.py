@@ -140,6 +140,8 @@ class MorphGUI(QtWidgets.QMainWindow):
         self.insTable  = QtWidgets.QTableView(self.Monitor)
         self.insrModel  = pdrmodel.PandasModel(self.opmmData.insrData)
         self.insTable.setModel(self.insrModel)
+        self.insTable.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.insTable.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         insSelectionModel = self.insTable.selectionModel()
         insSelectionModel.selectionChanged.connect(self.onInsSelect)
         self.insTable.setMinimumHeight(700)  
@@ -404,13 +406,13 @@ class MorphGUI(QtWidgets.QMainWindow):
         data = pd.read_json(jsonMsg, typ='series')
         pfId = int(data['portfolioId'])
         self.pfModel.updateRow(pfId, data)
-        #self.pfTable.model().layoutChanged.emit()
+        self.pfTable.model().layoutChanged.emit()
 
     def onPfInfoMessage(self, jsonMsg):
         data = pd.read_json(jsonMsg, typ='series')
         pfId = int(data['portfolioId'])
         self.pfModel.updateRow(pfId, data)
-        #self.pfTable.model().layoutChanged.emit()
+        self.pfTable.model().layoutChanged.emit()
 
     def onInstrumentDataMessage(self, jsonMsg):
         data = pd.read_json(jsonMsg, typ='series')
